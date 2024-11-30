@@ -1,0 +1,51 @@
+{
+  "name": "nextjs-15-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Next.js 15 template",
+  "scripts": {
+    "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
+    "dev": "node -e \"const fs = require('fs'); if (fs.existsSync('.next')) { fs.rmSync('.next', { recursive: true, force: true }); }\" && next dev --turbopack",
+    "knip": "knip",
+    "lint": "next lint",
+    "lint:fix": "eslint --fix .",
+    "lint:strict": "tsc --noEmit",
+    "prepare": "husky",
+    "prettier:check": "prettier --check .",
+    "prettier:clean": "prettier --write .",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@next/bundle-analyzer": "^15.0.3",
+    "@nextui-org/button": "^2.0.38",
+    "@nextui-org/react": "^2.4.8",
+    "@nextui-org/system": "^2.2.6",
+    "@nextui-org/theme": "^2.2.11",
+    "framer-motion": "^11.12.0",
+    "next": "15.0.3",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
+    "@types/node": "^22.9.3",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^9.15.0",
+    "eslint-config-next": "15.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "husky": "^9.1.7",
+    "knip": "^5.37.2",
+    "postcss": "^8",
+    "prettier": "3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-packagejson": "^2.5.5",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.7.2"
+  }
+}
