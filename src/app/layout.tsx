@@ -4,8 +4,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import { Providers } from "./provider";
 export const metadata: Metadata = {
-  title: "Next.js 15 Starter Template",
-  description: "A starter template for Next.js 15",
+  title: "TOHKHU's",
 };
 
 export default function RootLayout({
