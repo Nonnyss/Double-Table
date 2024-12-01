@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import WordRotate from "./ui/WordRotate";
 import {
   Button,
@@ -12,6 +12,16 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { Headset, ScanQrCode } from "lucide-react";
+import {
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider,
+} from "@stripe/react-stripe-js";
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 export default function Main({
   coke,
@@ -20,6 +30,16 @@ export default function Main({
   coke: number;
   words: string[];
 }) {
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+
+  const handleStartCheckout = async () => {
+    try {
+      const { data } = await axios.post("/api/checkout-sessions");
+      setClientSecret(data.clientSecret);
+    } catch (error) {
+      console.error("Error fetching client secret:", error);
+    }
+  };
   return (
     <div className="flex justify-center min-h-[80vh]">
       <div className="container flex flex-col mx-8 mt-10 ">
@@ -45,35 +65,46 @@ export default function Main({
             ))}
           </CardBody>
         </Card>
-      <div className="flex flex-col space-y-5 mt-16 px-10">
-        <Button
-          startContent={<ScanQrCode />}
-          size="lg"
-          className="bg-secondary text-primary-foreground font-black shadow-large drop-shadow-lg"
-        >
-          Get one
-        </Button>
-        <Popover placement="top-start" offset={20} showArrow>
-          <PopoverTrigger>
-            <Button
-              startContent={<Headset />}
-              size="lg"
-              className="bg-primary text-primary-foreground font-black shadow-large drop-shadow-lg"
+        <div className="flex flex-col space-y-5 mt-16 px-10">
+          {clientSecret ? (
+            <EmbeddedCheckoutProvider
+              stripe={stripePromise}
+              options={{ clientSecret }}
             >
-              Contact us
+              <EmbeddedCheckout />
+            </EmbeddedCheckoutProvider>
+          ) : (
+            <Button
+              startContent={<ScanQrCode />}
+              size="lg"
+              className="bg-secondary text-primary-foreground font-black shadow-large drop-shadow-lg"
+              onPress={handleStartCheckout}
+            >
+              Get one
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="bg-primary text-primary-foreground font-black shadow-large drop-shadow-lg">
-            <div className="px-1 py-2">
-              <div className="text-small font-bold">Instagram</div>
-              <div className="text-tiny">nont.nii</div>
-              <Spacer y={1} />
-              <div className="text-small font-bold">Nisit Id</div>
-              <div className="text-tiny">6633118721</div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
+          )}
+
+          <Popover placement="top-start" offset={20} showArrow>
+            <PopoverTrigger>
+              <Button
+                startContent={<Headset />}
+                size="lg"
+                className="bg-primary text-primary-foreground font-black shadow-large drop-shadow-lg"
+              >
+                Contact us
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="bg-primary text-primary-foreground font-black shadow-large drop-shadow-lg">
+              <div className="px-1 py-2">
+                <div className="text-small font-bold">Instagram</div>
+                <div className="text-tiny">nont.nii</div>
+                <Spacer y={1} />
+                <div className="text-small font-bold">Nisit Id</div>
+                <div className="text-tiny">6633118721</div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
     </div>
   );
