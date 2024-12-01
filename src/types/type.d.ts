@@ -38,6 +38,6 @@ type TransactionList = {
 };
 
 type TransactionListResponse = {
-  message: string;
+  message: string | unknown;
   data: Nullable<TransactionList>;
 };

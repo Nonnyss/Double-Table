@@ -22,7 +22,7 @@ export async function POST(
   } catch (err) {
     return NextResponse.json(
       {
-        message: "Failed to fetch transactions",
+        message: err,
         data: null,
       },
       { status: 500 }
