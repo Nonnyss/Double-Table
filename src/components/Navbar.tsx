@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment } from "react";
+import React from "react";
 import { ArchiveIcon, CircleUserRound, MenuIcon, Milk } from "lucide-react";
 import {
   Drawer,
@@ -9,6 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/Drawer";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -27,9 +28,15 @@ export default function Navbar() {
               <DrawerTitle className="font-line font-black">Menu</DrawerTitle>
             </DrawerHeader>
             <div className="flex justify-evenly">
-              <Milk strokeWidth={3} />
-              <ArchiveIcon strokeWidth={3} />
-              <CircleUserRound strokeWidth={3} />
+              <Link href={"/"}>
+                <Milk strokeWidth={3} />
+              </Link>
+              <Link href={"/transaction-dashboard"}>
+                <ArchiveIcon strokeWidth={3} />
+              </Link>
+              <Link href={"infomation"}>
+                <CircleUserRound strokeWidth={3} />
+              </Link>
             </div>
             <DrawerFooter></DrawerFooter>
           </DrawerContent>
