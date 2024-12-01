@@ -43,11 +43,11 @@ export default function Main({
   return (
     <div className="flex justify-center min-h-[80vh]">
       <div className="container flex flex-col mx-8 mt-10 ">
-        <WordRotate className="text-2xl font-black font-line" words={words} />
-        <Card className="py-4 shadow-2xl">
+        <WordRotate className="text-4xl font-black font-line" words={words} />
+        <Card className="py-4 shadow-2xl bg-primary drop-shadow-2xl text-primary-foreground">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-end flex font-line">
             <p className="text-tiny uppercase font-bold">Daily Mix</p>
-            <small className="text-default-500 font-line font-bold">
+            <small className="font-line font-bold">
               25 c ํ
             </small>
             <h4 className="font-bold text-large">Coke Radio</h4>
@@ -56,11 +56,10 @@ export default function Main({
             {Array.from({ length: coke }).map((_, i) => (
               <Image
                 key={i}
-                src={`/img/coke${i + 1}.png`}
+                src={`/img/coke${i + 1}.svg`}
                 alt="logo"
                 width={100}
                 height={100}
-                className="drop-shadow-2xl"
               />
             ))}
           </CardBody>
