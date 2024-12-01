@@ -103,7 +103,9 @@ export default function Page() {
         <SparklesText text="รายได้ทั้งหมด" />
         <p className="text-4xl font-semibold ">
           <NumberTicker
-            value={Math.abs(transactions.reduce((acc, item) => acc + item.amount, 0))}
+            value={Math.abs(
+              transactions.reduce((acc, item) => acc + item.amount, 0)
+            )}
           />{" "}
           บาท
         </p>

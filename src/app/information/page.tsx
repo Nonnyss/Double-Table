@@ -9,6 +9,8 @@ import {
   Button,
 } from "@nextui-org/react";
 import PulsatingButton from "@/components/ui/PulsationButton";
+import { signOut } from "next-auth/react";
+import ShimmerButton from "@/components/ui/Shimmer";
 
 export default function App() {
   const [isFollowed, setIsFollowed] = React.useState(false);
@@ -72,8 +74,18 @@ export default function App() {
       </Card>
       <div className="flex justify-center">
         <PulsatingButton className="font-line font-black text-4xl mt-16">
-            เปิดตู้เติมของ
+          เปิดตู้เติมของ
         </PulsatingButton>
+      </div>
+      <div className="fixed bottom-4 right-4">
+        <ShimmerButton
+          onClick={() => {
+            signOut({ callbackUrl: "/" });
+          }}
+          className="font-line font-black shadow-2xl"
+        >
+          Sign Out
+        </ShimmerButton>
       </div>
     </div>
   );

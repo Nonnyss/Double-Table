@@ -1,18 +1,5 @@
 "use client";
 import { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Image,
-  Button,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Spacer,
-} from "@nextui-org/react";
-import WordRotate from "@/components/ui/WordRotate";
-import { Headset, Scan, ScanQrCode } from "lucide-react";
 import Main from "@/components/Main";
 
 export default function Home() {
