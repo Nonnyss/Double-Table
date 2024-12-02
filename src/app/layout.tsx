@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import { Providers } from "../providers/NextUiProvider";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
+/* import { NextAuthProvider } from "@/providers/NextAuthProvider"; */
 export const metadata: Metadata = {
   title: "TOHKHU's",
 };
@@ -22,12 +22,10 @@ export default function RootLayout({
         className="bg-cover bg-center"
         // style={{ backgroundImage: "url('/img/bg.svg')" }}
       >
-        <NextAuthProvider>
-          <Providers>
-            <Navbar />
-            <div className="bg-white bg-opacity-70">{children}</div>
-          </Providers>
-        </NextAuthProvider>
+        <Providers>
+          <Navbar />
+          <div className="bg-white bg-opacity-70">{children}</div>
+        </Providers>
       </body>
     </html>
   );

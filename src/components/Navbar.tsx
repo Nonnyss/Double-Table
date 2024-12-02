@@ -12,10 +12,8 @@ import {
 import Link from "next/link";
 import BoxReveal from "./ui/BoxReveal";
 import { Button } from "@nextui-org/button";
-import { signIn, useSession } from "next-auth/react";
 import ShimmerButton from "./ui/Shimmer";
 export default function Navbar() {
-  const { data: session } = useSession();
 
   return (
     <div className="flex justify-center bg-primary  text-primary-foreground font-line font-bold">
@@ -36,41 +34,30 @@ export default function Navbar() {
                 </DrawerTitle>
               </DrawerHeader>
               <div className="flex justify-evenly">
-                {session ? (
-                  <>
-                    <Link href={"/"}>
-                      <Button
-                        isIconOnly
-                        className="bg-primary text-primary-foreground"
-                      >
-                        <Milk strokeWidth={3} />
-                      </Button>
-                    </Link>
-                    <Link href={"/transaction-dashboard"}>
-                      <Button
-                        isIconOnly
-                        className="bg-primary text-primary-foreground"
-                      >
-                        <ArchiveIcon strokeWidth={3} />
-                      </Button>
-                    </Link>
-                    <Link href={"/information"}>
-                      <Button
-                        isIconOnly
-                        className="bg-primary text-primary-foreground"
-                      >
-                        <CircleUserRound strokeWidth={3} />
-                      </Button>
-                    </Link>
-                  </>
-                ) : (
-                  <ShimmerButton
-                    className="font-line font-black"
-                    onClick={() => signIn()}
+                <Link href={"/"}>
+                  <Button
+                    isIconOnly
+                    className="bg-primary text-primary-foreground"
                   >
-                    Sign In
-                  </ShimmerButton>
-                )}
+                    <Milk strokeWidth={3} />
+                  </Button>
+                </Link>
+{/*                 <Link href={"/transaction-dashboard"}>
+                  <Button
+                    isIconOnly
+                    className="bg-primary text-primary-foreground"
+                  >
+                    <ArchiveIcon strokeWidth={3} />
+                  </Button>
+                </Link> */}
+                <Link href={"/information"}>
+                  <Button
+                    isIconOnly
+                    className="bg-primary text-primary-foreground"
+                  >
+                    <CircleUserRound strokeWidth={3} />
+                  </Button>
+                </Link>
               </div>
               <DrawerFooter></DrawerFooter>
             </DrawerContent>

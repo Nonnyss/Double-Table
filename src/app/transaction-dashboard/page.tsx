@@ -9,18 +9,18 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { transactionsData } from "./data/mock";
 import NumberTicker from "@/components/ui/NumberTicker";
 import SparklesText from "@/components/ui/SparklesText";
+import axios from "axios";
 
 export default function Page() {
   const [transactions, setTransactions] =
     useState<Array<Transaction>>(transactionsData);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("api/get-transactions", {
+      const response = await axios.post("api/get-transac", {
         limit: 10,
       });
       setTransactions(response.data);

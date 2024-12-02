@@ -9,7 +9,6 @@ import {
   Button,
 } from "@nextui-org/react";
 import PulsatingButton from "@/components/ui/PulsationButton";
-import { signOut } from "next-auth/react";
 import ShimmerButton from "@/components/ui/Shimmer";
 
 export default function App() {
@@ -72,12 +71,12 @@ export default function App() {
           </div>
         </CardFooter>
       </Card>
-      <div className="flex justify-center">
+{/*       <div className="flex justify-center">
         <PulsatingButton className="font-line font-black text-4xl mt-16">
           เปิดตู้เติมของ
         </PulsatingButton>
-      </div>
-      <div className="fixed bottom-4 right-4">
+      </div> */}
+{/*       <div className="fixed bottom-4 right-4">
         <ShimmerButton
           onClick={() => {
             signOut({ callbackUrl: "/" });
@@ -86,7 +85,7 @@ export default function App() {
         >
           Sign Out
         </ShimmerButton>
-      </div>
+      </div> */}
     </div>
   );
 }
