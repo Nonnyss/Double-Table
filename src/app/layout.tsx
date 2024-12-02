@@ -20,7 +20,7 @@ export default function RootLayout({
     >
       <body
         className="bg-cover bg-center"
-        style={{ backgroundImage: "url('/img/bg.svg')" }}
+        // style={{ backgroundImage: "url('/img/bg.svg')" }}
       >
         <NextAuthProvider>
           <Providers>
