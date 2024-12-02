@@ -17,18 +17,8 @@ const stripePromise = loadStripe(
 );
 
 export default function Dashboard() {
-  const [user, setUser] = useState();
-  interface Event {
-    operationType: "insert" | "delete" | "update";
-    fullDocument?: any;
-  }
-
-  const [events, setEvents] = useState<Event | null>(null);
-  interface Temper {
-    temperature: number;
-    humidity: number;
-  }
-  const [temper, setTemper] = useState<Temper | null>(null);
+  const [events, setEvents] = useState<any>(null);
+  const [temper, setTemper] = useState<any>(null);
   const [count, setCount] = useState(0);
   const [clientSecret, setClientSecret] = useState<string | null>(null); // Set state variables
 
@@ -39,11 +29,19 @@ export default function Dashboard() {
       const user = await app.logIn(Realm.Credentials.anonymous());
       const mongodb = app.currentUser?.mongoClient("mongodb-atlas");
       const collection = mongodb?.db("test").collection("items");
-      const count = await collection?.count();
-      setCount(count!);
+      const lastDocument = await collection?.findOne({}, { sort: { _id: -1 } });
+      const resultArray = Object.keys(lastDocument)
+        .filter((key) => !isNaN(Number(key))) // Filter numeric keys
+        .map((key) => lastDocument[key]); // Map to their respective values
+      console.log(resultArray);
+      setEvents(resultArray);
       if (collection) {
         for await (const change of collection.watch()) {
-          setEvents(change as any);
+          // console.log(change.fullDocument);
+          const resultArray = Object.keys((change as any).fullDocument)
+            .filter((key) => !isNaN(Number(key))) // Filter numeric keys
+            .map((key) => (change as any).fullDocument[key]); // Map to their respective values
+          setEvents(resultArray);
         }
       }
     };
@@ -68,18 +66,6 @@ export default function Dashboard() {
     };
     login();
   }, []);
-
-  useEffect(() => {
-    console.log(events);
-    if (events) {
-      if (events.operationType === "insert") {
-        setCount(count + 1);
-      }
-      if (events.operationType === "delete") {
-        setCount(count - 1);
-      }
-    }
-  }, [events]);
 
   const handleStartCheckout = async () => {
     try {
@@ -111,7 +97,7 @@ export default function Dashboard() {
             <Milk className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-5xl font-bold">{count}</div>
+            <div className="text-5xl font-bold">{events && events.length}</div>
             <p className="text-xs text-muted-foreground">can amounts</p>
           </CardContent>
         </Card>
@@ -140,7 +126,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <div className="mt-20">
+      <div className="mt-10">
         {clientSecret ? (
           <EmbeddedCheckoutProvider
             stripe={stripePromise}
@@ -153,6 +139,7 @@ export default function Dashboard() {
             startContent={<ScanQrCode />}
             size="lg"
             color="danger"
+            className="w-full"
             onPress={handleStartCheckout}
           >
             Get one

@@ -30,9 +30,9 @@ export default function Return() {
 
       if (checkoutStatus === "complete") {
         await axios.post(
-          `https://aab7-2405-9800-b642-45c9-755f-b2b7-1f61-c246.ngrok-free.app`,
+          `https://tokkhu-discord.vercel.app/`,
           {
-            message: "# ฮ่าๆ โดนกุเกรียนตัง",
+            message: "# ขอให้อร่อยคับ",
             imageUrl:
               "https://im.indiatimes.in/content/2024/May/DALLE-2024-05-31-184412---A-black-dog-walking-with-a-red-Coca-Cola-band-wrapped-around-its-body-The-dog-is-a-medium-sized-breed-with-a-happy-expression-walking-outdoors-on-_6659cd5941894.jpg?w=640&h=640&cc=1&webp=1&q=75",
           }
