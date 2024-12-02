@@ -1,5 +1,4 @@
 import clientPromise from "@/lib/mongodb";
-import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -16,10 +15,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       { message: "Item added", result: result },
       { status: 200 }
     );
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json(
       {
-        message: { error: "Error adding item", err: err.message },
+        message: { error: "Error adding item", err: (err as Error).message },
         data: null,
       },
       { status: 500 }

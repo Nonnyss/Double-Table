@@ -23,7 +23,7 @@ export default function App() {
             <Avatar isBordered radius="full" size="md" src="/img/profile.png" />
             <div className="flex flex-col gap-1 items-start justify-center">
               <h4 className="text-small font-semibold leading-none text-default-600">
-                TOKKHU's Official
+                TOKKHU&apos;s Official
               </h4>
               <h5 className="text-small tracking-tight text-default-400">
                 @tokkhuOfficial

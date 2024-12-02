@@ -1,37 +1,49 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/button";
 import {
-  Thermometer,
-  Droplets,
-  RefreshCcw,
-  BoxIcon as Bottle,
-  Milk,
-} from "lucide-react";
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { Droplets, Milk, ScanQrCode, Thermometer } from "lucide-react";
+import { useEffect, useState } from "react";
 import * as Realm from "realm-web";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 export default function Dashboard() {
   const [user, setUser] = useState();
-  const [events, setEvents] = useState<any>();
-  const [temper, setTemper] = useState<any>();
+  interface Event {
+    operationType: "insert" | "delete" | "update";
+    fullDocument?: any;
+  }
+
+  const [events, setEvents] = useState<Event | null>(null);
+  interface Temper {
+    temperature: number;
+    humidity: number;
+  }
+  const [temper, setTemper] = useState<Temper | null>(null);
   const [count, setCount] = useState(0);
+  const [clientSecret, setClientSecret] = useState<string | null>(null); // Set state variables
 
   const app = new Realm.App({ id: "application-0-fcqvnjd" });
 
   useEffect(() => {
     const login = async () => {
-      const user: any = await app.logIn(Realm.Credentials.anonymous());
-      setUser(user);
+      const user = await app.logIn(Realm.Credentials.anonymous());
       const mongodb = app.currentUser?.mongoClient("mongodb-atlas");
       const collection = mongodb?.db("test").collection("items");
       const count = await collection?.count();
       setCount(count!);
       if (collection) {
         for await (const change of collection.watch()) {
-          setEvents(change);
+          setEvents(change as any);
         }
       }
     };
@@ -40,8 +52,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const login = async () => {
-      const user: any = await app.logIn(Realm.Credentials.anonymous());
-      setUser(user);
+      const user = await app.logIn(Realm.Credentials.anonymous());
       const mongodb = app.currentUser?.mongoClient("mongodb-atlas");
       const temperCollection = mongodb?.db("test").collection("temper");
       const lastTemperDocument = await temperCollection?.findOne(
@@ -69,6 +80,15 @@ export default function Dashboard() {
       }
     }
   }, [events]);
+
+  const handleStartCheckout = async () => {
+    try {
+      const { data } = await axios.post("/api/checkout-sessions");
+      setClientSecret(data.clientSecret);
+    } catch (error) {
+      console.error("Error fetching client secret:", error);
+    }
+  };
 
   return (
     <div className="container mx-auto p-8 ">
@@ -119,6 +139,25 @@ export default function Dashboard() {
             <p className="text-xs text-muted-foreground">current humidity</p>
           </CardContent>
         </Card>
+      </div>
+      <div className="mt-20">
+        {clientSecret ? (
+          <EmbeddedCheckoutProvider
+            stripe={stripePromise}
+            options={{ clientSecret }}
+          >
+            <EmbeddedCheckout />
+          </EmbeddedCheckoutProvider>
+        ) : (
+          <Button
+            startContent={<ScanQrCode />}
+            size="lg"
+            color="danger"
+            onPress={handleStartCheckout}
+          >
+            Get one
+          </Button>
+        )}
       </div>
     </div>
   );

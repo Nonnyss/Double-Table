@@ -1,4 +1,5 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
-      return_url: `${request.headers.get('origin')}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${request.headers.get("origin")}/return?session_id={CHECKOUT_SESSION_ID}`,
     });
 
     return NextResponse.json(

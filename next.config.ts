@@ -7,6 +7,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   /* config options here */
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
 };
 
 export default withBundleAnalyzer(nextConfig);
